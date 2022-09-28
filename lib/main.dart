@@ -54,17 +54,31 @@ class MyHomePage extends StatelessWidget {
           // TabBarView 의 children 으로는 Tab widget 으로 감싸주는 것이 좋음
           children: [
             Tab(
-              // Center 위젯으로 감싸주면 사용하면 뷰의 정가운데에 위치하게 할 수 있음
-              // Padding 위젯으로 감싸주면 Padding 값을 지정할 수 있음
-              // Padding 위젯과 높이를 지정하지 않는 Container 를 사용하면 inner margin 값이 지정된 것처럼 보이게 됨
-              // Align 위젯으로 감싸주면 alignment 속성을 통해서 특정 위치로 정렬할 수 있음
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  color: Colors.red,
-                  width: 100,
-                  height: 100,
-                ),
+              child: Row(
+                children: [
+                  Container(
+                    color: Colors.red,
+                    width: 100,
+                    height: 100,
+                  ),
+                  // Expanded 으로 감싸주면 부모 뷰의 남은 영역까지 꽉차게 만들 수 있음
+                  // flex 2는 blue:green = 2:1 로 width 비율 지정
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      color: Colors.blue,
+                      width: 100,
+                      height: 100,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.green,
+                      width: 100,
+                      height: 100,
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -80,7 +94,8 @@ class MyHomePage extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-            BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications), label: 'Notifications'),
           ],
         ),
       ),
