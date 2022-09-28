@@ -19,13 +19,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.brown,
       ),
       // Home 속성은 pages 를 할당
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
+  final items = List.generate(100, (index) => index).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -36,31 +37,11 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Flutter Demo'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
       ),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            color: Colors.red,
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            color: Colors.blue,
-            width: 80,
-            height: 80,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            color: Colors.green,
-            width: 60,
-            height: 60,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-        ],
+      body: SingleChildScrollView(
+        // Column 보다 ListBody 위젯으로 children 을 감싸주면 텍스트 영역 말고 부모 전체 영역으로 스크롤 가능
+        child: ListBody(
+          children: items.map((i) => Text('$i')).toList(),
+        ),
       ),
       drawer: const Drawer(),
     );
