@@ -53,24 +53,28 @@ class MyHomePage extends StatelessWidget {
         body: TabBarView(
           // TabBarView 의 children 으로는 Tab widget 으로 감싸주는 것이 좋음
           children: [
+            // 이 외에도 FloatingActionButton
+            // CircularProgressIndicator() : 원형 로딩바
+            // LinearProgressIndicator() : 가로 직선 로딩바
             Tab(
-              // Card 위젯 : 깔끔한 박스 위젯, 그림자, radius 지정 가능
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                elevation: 4.0,
-                child: const SizedBox(
-                  width: 100,
-                  height: 100,
-                ),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('HomePage'),
+               )
+            ),
+            Tab(
+              child: TextButton(
+                onPressed: () {},
+                child: const Text('TextButton'),
               ),
             ),
-            Container(
-              color: Colors.blue,
-            ),
-            Container(
-              color: Colors.green,
+            Tab(
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.add),
+                iconSize: 100.0,
+                color: Colors.red,
+              ),
             ),
           ],
         ),
