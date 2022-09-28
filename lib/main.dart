@@ -37,11 +37,28 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Flutter Demo'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
       ),
-      body: SingleChildScrollView(
-        // Column 보다 ListBody 위젯으로 children 을 감싸주면 텍스트 영역 말고 부모 전체 영역으로 스크롤 가능
-        child: ListBody(
-          children: items.map((i) => Text('$i')).toList(),
-        ),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
+            trailing: const Icon(Icons.navigate_next),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.event),
+            title: const Text('Event'),
+            trailing: const Icon(Icons.navigate_next),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.camera),
+            title: const Text('Camera'),
+            trailing: const Icon(Icons.navigate_next),
+            onTap: () {},
+          ),
+        ],
       ),
       drawer: const Drawer(),
     );
