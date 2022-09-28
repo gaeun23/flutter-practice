@@ -54,31 +54,16 @@ class MyHomePage extends StatelessWidget {
           // TabBarView 의 children 으로는 Tab widget 으로 감싸주는 것이 좋음
           children: [
             Tab(
-              child: Row(
-                children: [
-                  Container(
-                    color: Colors.red,
-                    width: 100,
-                    height: 100,
-                  ),
-                  // Expanded 으로 감싸주면 부모 뷰의 남은 영역까지 꽉차게 만들 수 있음
-                  // flex 2는 blue:green = 2:1 로 width 비율 지정
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      color: Colors.blue,
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Colors.green,
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                ],
+              // Card 위젯 : 깔끔한 박스 위젯, 그림자, radius 지정 가능
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                elevation: 4.0,
+                child: const SizedBox(
+                  width: 100,
+                  height: 100,
+                ),
               ),
             ),
             Container(
