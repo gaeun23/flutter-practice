@@ -30,55 +30,41 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Scaffold 의 default 속성은 appBar(title part) 와 body(main part) 속성이 있음.
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.bondiBlue,
-        title: const Text('Flutter Demo'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+    // TabBarView 를 사용하기 위해 DefaultTabController 로 감싸주고, length 로 tab 개수 지정
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColor.bondiBlue,
+          title: const Text('Flutter Demo'),
+          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.tag_faces)),
+              Tab(text: 'Menu2'),
+              Tab(
+                icon: Icon(Icons.info),
+                text: 'Menu3',
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          // PageView Widget 은 ViewPager 와 동일
+          children: [
+            Container(
+              color: Colors.red,
+            ),
+            Container(
+              color: Colors.blue,
+            ),
+            Container(
+              color: Colors.green,
+            ),
+          ],
+        ),
+        drawer: const Drawer(),
       ),
-      body: GridView.count(
-        // GirdView 는 children 의 widgets 이 많아질 수록 자동으로 scroll 생성
-        crossAxisCount: 4,
-        children: [
-          Container(
-            color: Colors.red,
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            color: Colors.red,
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            color: Colors.red,
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            color: Colors.red,
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            color: Colors.red,
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(8.0),
-          ),
-        ],
-      ),
-      drawer: const Drawer(),
     );
   }
 }
