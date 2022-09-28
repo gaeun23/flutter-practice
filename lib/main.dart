@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Hot Reload Demo'),
+      home: const MyHomePage(title: 'Qatar World Cup 2022'),
     );
   }
 }
@@ -48,28 +48,62 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _goalOfKorea = 0;
+  int _goalOfKorea1 = 0;
+  int _goalOfKorea2 = 0;
+  int _goalOfKorea3 = 0;
+  int _goalOfGhana = 0;
+  int _goalOfPortugal = 0;
+  int _goalOfUruguay = 0;
 
-  void _incrementCounter() {
+  void _addGoalKorea1() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _goalOfKorea1++;
+      _goalOfKorea++;
     });
   }
 
-  void _decrementCounter() {
+  void _addGoalKorea2() {
     setState(() {
-      _counter--;
+      _goalOfKorea2++;
+      _goalOfKorea++;
     });
   }
 
-  void _resetCounter() {
+  void _addGoalKorea3() {
     setState(() {
-      _counter = 0;
+      _goalOfKorea3++;
+      _goalOfKorea++;
+    });
+  }
+
+  void _addGoalGhana() {
+    setState(() {
+      _goalOfGhana++;
+    });
+  }
+
+  void _addGoalPortugal() {
+    setState(() {
+      _goalOfPortugal++;
+    });
+  }
+
+  void _addGoalUruguay() {
+    setState(() {
+      _goalOfUruguay++;
+    });
+  }
+
+  void _resetAllGoals() {
+    setState(() {
+      _goalOfKorea = 0;
+      _goalOfKorea1 = 0;
+      _goalOfKorea2 = 0;
+      _goalOfKorea3 = 0;
+      _goalOfUruguay = 0;
+      _goalOfPortugal = 0;
+      _goalOfGhana = 0;
     });
   }
 
@@ -107,41 +141,153 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(bottom: 100.0),
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.25),
-                  borderRadius: BorderRadius.circular(10.0)),
-              child: Image.asset(
-                'flutter_logo.png',
-                width: 100.0,
-                height: 100.0,
-              ),
-            ),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                    onPressed: _decrementCounter,
-                    child: const Text('Decrement')),
+                    onPressed: _addGoalKorea1, child: const Text('Goal')),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.black12.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Image.asset(
+                    'korea.png',
+                    width: 50.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Text(
+                  '$_goalOfKorea1',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const Text(
+                  ':',
+                  style: TextStyle(fontSize: 30),
+                ),
+                Text(
+                  '$_goalOfUruguay',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.black12.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Image.asset(
+                    'uruguay.png',
+                    width: 50.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
                 ElevatedButton(
-                    onPressed: _incrementCounter,
-                    child: const Text('Increment')),
+                    onPressed: _addGoalUruguay, child: const Text('Goal')),
               ],
-            )
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: _addGoalKorea2, child: const Text('Goal')),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.black12.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Image.asset(
+                    'korea.png',
+                    width: 50.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Text(
+                  '$_goalOfKorea2',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const Text(
+                  ':',
+                  style: TextStyle(fontSize: 30),
+                ),
+                Text(
+                  '$_goalOfGhana',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.black12.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Image.asset(
+                    'ghana.png',
+                    width: 50.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: _addGoalGhana, child: const Text('Goal')),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: _addGoalKorea3, child: const Text('Goal')),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.black12.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Image.asset(
+                    'korea.png',
+                    width: 50.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Text(
+                  '$_goalOfKorea3',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const Text(
+                  ':',
+                  style: TextStyle(fontSize: 30),
+                ),
+                Text(
+                  '$_goalOfPortugal',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.black12.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Image.asset(
+                    'portugal.png',
+                    width: 50.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: _addGoalPortugal, child: const Text('Goal')),
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 40.0),
+              child: const Text(
+                'Total Korean Goals:',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+            Text(
+              '$_goalOfKorea',
+              style: Theme.of(context).textTheme.headline4,
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _resetCounter,
+        onPressed: _resetAllGoals,
         tooltip: 'Reset',
         child: const Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
