@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Colors.blue,
+        fontFamily: 'Cabin',
       ),
       // Home 속성은 pages 를 할당
       home: const MyHomePage(),
