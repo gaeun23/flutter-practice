@@ -37,26 +37,44 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Flutter Demo'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
       ),
-      body: ListView(
-        scrollDirection: Axis.vertical,
+      body: GridView.count(
+        // GirdView 는 children 의 widgets 이 많아질 수록 자동으로 scroll 생성
+        crossAxisCount: 4,
         children: [
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
-            trailing: const Icon(Icons.navigate_next),
-            onTap: () {},
+          Container(
+            color: Colors.red,
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
           ),
-          ListTile(
-            leading: const Icon(Icons.event),
-            title: const Text('Event'),
-            trailing: const Icon(Icons.navigate_next),
-            onTap: () {},
+          Container(
+            color: Colors.red,
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
           ),
-          ListTile(
-            leading: const Icon(Icons.camera),
-            title: const Text('Camera'),
-            trailing: const Icon(Icons.navigate_next),
-            onTap: () {},
+          Container(
+            color: Colors.red,
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
+          ),
+          Container(
+            color: Colors.red,
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
+          ),
+          Container(
+            color: Colors.red,
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
           ),
         ],
       ),
