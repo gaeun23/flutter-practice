@@ -10,16 +10,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The MaterialApp widget sets the default settings for the app.
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'My Flutter App',
       theme: ThemeData(
         primaryColor: Colors.blue,
         fontFamily: 'Cabin',
-        // Bottom Navi 의 Selected Color 는 primarySwatch 값으로 지정
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      // Home 속성은 pages 를 할당
       home: MyHomePage(),
     );
   }
@@ -28,52 +25,86 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
   final items = List.generate(100, (index) => index).toList();
+  final dogItems = List.generate(16, (index) => index).toList();
 
   @override
   Widget build(BuildContext context) {
-    // TabBarView 를 사용하기 위해 DefaultTabController 로 감싸주고, length 로 tab 개수 지정
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColor.bondiBlue,
-          title: const Text('Flutter Demo'),
+          backgroundColor: AppColor.lightGreen,
+          title: const Text('My Flutter App'),
           actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
           bottom: const TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.tag_faces)),
-              Tab(text: 'Menu2'),
+              Tab(
+                icon: Icon(Icons.tag_faces),
+                text: 'Students',
+              ),
+              Tab(icon: Icon(Icons.photo), text: 'Album'),
               Tab(
                 icon: Icon(Icons.info),
-                text: 'Menu3',
+                text: 'Info',
               ),
             ],
           ),
         ),
         body: TabBarView(
-          // TabBarView 의 children 으로는 Tab widget 으로 감싸주는 것이 좋음
           children: [
-            // 이 외에도 FloatingActionButton
-            // CircularProgressIndicator() : 원형 로딩바
-            // LinearProgressIndicator() : 가로 직선 로딩바
             Tab(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('HomePage'),
-               )
-            ),
-            Tab(
-              child: TextButton(
-                onPressed: () {},
-                child: const Text('TextButton'),
+              child: SingleChildScrollView(
+                child: ListBody(
+                  children: items
+                      .map((i) => ListTile(
+                            leading: const Icon(Icons.home),
+                            title: Text('Students ${i + 1}'),
+                            trailing: const Icon(Icons.navigate_next),
+                            onTap: () {},
+                          ))
+                      .toList(),
+                ),
               ),
             ),
             Tab(
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.add),
-                iconSize: 100.0,
-                color: Colors.red,
+              child: GridView.count(
+                crossAxisCount: 3,
+                children: dogItems
+                    .map((i) => Image.asset('dog_${i + 1}.jpeg'))
+                    .toList(),
+              ),
+            ),
+            Tab(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Opacity(
+                      opacity: 0.2,
+                      child: Image.asset(
+                        'warning.jpeg',
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('This page dose not include contents.'),
+                      const Text(
+                          'Please insert contents by pressing the Button.'),
+                      Container(
+                        margin: const EdgeInsets.only(top: 24.0),
+                        child: FloatingActionButton(
+                          onPressed: () {},
+                          tooltip: 'Add',
+                          child: const Icon(Icons.add),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
