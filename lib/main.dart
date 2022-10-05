@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum Language { cpp, python, dart }
+
 void main() {
   runApp(const MyApp());
 }
@@ -27,9 +29,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _isChecked1 = false;
-  var _isChecked2 = false;
-  var _isChecked3 = false;
+  Language _language = Language.cpp;
 
   @override
   Widget build(BuildContext context) {
@@ -40,30 +40,36 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          SwitchListTile(
-            title: const Text('Title'),
-            value: _isChecked1,
+          RadioListTile(
+            title: const Text('C++'),
+            value: Language.cpp,
+            groupValue: _language,
             onChanged: (value) {
               setState(() {
-                _isChecked1 = value;
+                _language = value!;
+                print('$_language');
               });
             },
           ),
-          CheckboxListTile(
-            title: const Text('Title2'),
-            value: _isChecked2,
+          RadioListTile(
+            title: const Text('Python'),
+            value: Language.python,
+            groupValue: _language,
             onChanged: (value) {
               setState(() {
-                _isChecked2 = value!;
+                _language = value!;
+                print('$_language');
               });
             },
           ),
-          CheckboxListTile(
-            title: const Text('Title2'),
-            value: _isChecked3,
+          RadioListTile(
+            title: const Text('Dart'),
+            value: Language.dart,
+            groupValue: _language,
             onChanged: (value) {
               setState(() {
-                _isChecked3 = value!;
+                _language = value!;
+                print('$_language');
               });
             },
           ),
