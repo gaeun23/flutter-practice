@@ -27,8 +27,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _valueList = List.generate(10, (index) => 'Student $index');
-  var _selectedValue = 'Student 0';
+  final _myController = TextEditingController();
+
+  void dispose() {
+    _myController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +41,35 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('My Home Page'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
       ),
-      body: DropdownButton(
-        value: _selectedValue,
-        items: _valueList.map(
-          (value) {
-            return DropdownMenuItem(value: value, child: Text(value));
-          },
-        ).toList(),
-        onChanged: (value) {
-          setState(() {
-            _selectedValue = value!;
-          });
-        },
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Input String',
+              ),
+              controller: _myController,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Text(
+              _myController.text,
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {});
+              },
+              child: const Text('Enter'),
+            ),
+          ],
+        ),
       ),
       drawer: const Drawer(),
     );
