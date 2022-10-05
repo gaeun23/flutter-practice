@@ -27,10 +27,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _myController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
+  String _obstate = 'Normal';
 
+  @override
   void dispose() {
-    _myController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
     super.dispose();
   }
 
@@ -42,21 +46,33 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Input String',
+                labelText: 'Height',
               ),
-              controller: _myController,
+              controller: _heightController,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Weight',
+              ),
+              controller: _weightController,
+              keyboardType: TextInputType.number,
             ),
             const SizedBox(
               height: 30,
             ),
             Text(
-              _myController.text,
+              _obstate,
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(
@@ -64,7 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                setState(() {});
+                setState(() {
+                  var heightValue = double.parse(_heightController.text.trim());
+                  var weightValue = double.parse(_weightController.text.trim());
+                  if (weightValue / (heightValue * heightValue) >= 25) {
+                    _obstate = 'Obesity';
+                  } else {
+                    _obstate = 'Normal';
+                  }
+                });
               },
               child: const Text('Enter'),
             ),
