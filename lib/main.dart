@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-enum Language { cpp, python, dart }
-
 void main() {
   runApp(const MyApp());
 }
@@ -29,7 +27,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Language _language = Language.cpp;
+  final _valueList = List.generate(10, (index) => 'Student $index');
+  var _selectedValue = 'Student 0';
 
   @override
   Widget build(BuildContext context) {
@@ -38,42 +37,18 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('My Home Page'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
       ),
-      body: Column(
-        children: [
-          RadioListTile(
-            title: const Text('C++'),
-            value: Language.cpp,
-            groupValue: _language,
-            onChanged: (value) {
-              setState(() {
-                _language = value!;
-                print('$_language');
-              });
-            },
-          ),
-          RadioListTile(
-            title: const Text('Python'),
-            value: Language.python,
-            groupValue: _language,
-            onChanged: (value) {
-              setState(() {
-                _language = value!;
-                print('$_language');
-              });
-            },
-          ),
-          RadioListTile(
-            title: const Text('Dart'),
-            value: Language.dart,
-            groupValue: _language,
-            onChanged: (value) {
-              setState(() {
-                _language = value!;
-                print('$_language');
-              });
-            },
-          ),
-        ],
+      body: DropdownButton(
+        value: _selectedValue,
+        items: _valueList.map(
+          (value) {
+            return DropdownMenuItem(value: value, child: Text(value));
+          },
+        ).toList(),
+        onChanged: (value) {
+          setState(() {
+            _selectedValue = value!;
+          });
+        },
       ),
       drawer: const Drawer(),
     );
