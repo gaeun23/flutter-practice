@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black12.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Image.asset(
-                    'korea.png',
+                    'assets/korea.png',
                     width: 50.0,
                     fit: BoxFit.fill,
                   ),
@@ -175,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black12.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Image.asset(
-                    'uruguay.png',
+                    'assets/uruguay.png',
                     width: 50.0,
                     fit: BoxFit.fill,
                   ),
@@ -196,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black12.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Image.asset(
-                    'korea.png',
+                    'assets/korea.png',
                     width: 50.0,
                     fit: BoxFit.fill,
                   ),
@@ -219,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black12.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Image.asset(
-                    'ghana.png',
+                    'assets/ghana.png',
                     width: 50.0,
                     fit: BoxFit.fill,
                   ),
@@ -240,7 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black12.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Image.asset(
-                    'korea.png',
+                    'assets/korea.png',
                     width: 50.0,
                     fit: BoxFit.fill,
                   ),
@@ -263,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black12.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Image.asset(
-                    'portugal.png',
+                    'assets/portugal.png',
                     width: 50.0,
                     fit: BoxFit.fill,
                   ),
