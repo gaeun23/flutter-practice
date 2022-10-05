@@ -27,7 +27,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _isChecked = false;
+  var _isChecked1 = false;
+  var _isChecked2 = false;
+  var _isChecked3 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +38,36 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('My Home Page'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
       ),
-      body: Checkbox(
-        value: _isChecked,
-        onChanged: (value) {
-          setState(() {
-            _isChecked = value!;
-          });
-        },
+      body: Column(
+        children: [
+          SwitchListTile(
+            title: const Text('Title'),
+            value: _isChecked1,
+            onChanged: (value) {
+              setState(() {
+                _isChecked1 = value;
+              });
+            },
+          ),
+          CheckboxListTile(
+            title: const Text('Title2'),
+            value: _isChecked2,
+            onChanged: (value) {
+              setState(() {
+                _isChecked2 = value!;
+              });
+            },
+          ),
+          CheckboxListTile(
+            title: const Text('Title2'),
+            value: _isChecked3,
+            onChanged: (value) {
+              setState(() {
+                _isChecked3 = value!;
+              });
+            },
+          ),
+        ],
       ),
       drawer: const Drawer(),
     );
