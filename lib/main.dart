@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String text = '';
+  double squareside = 100;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            // 이 외에도 다양한 애니메이션 구현은 https://docs.flutter.dev/development/ui/widgets/animation 참고
+
             GestureDetector(
-              child: Container(
-                width: 100,
-                height: 100,
+              child: AnimatedContainer(
+                width: squareside,
+                height: squareside,
                 color: Colors.green,
+                duration: const Duration(seconds: 1),
               ),
               onTap: () {
                 setState(() {
@@ -54,6 +59,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     text = 'Hello World';
                   } else {
                     text = '';
+                  }
+                });
+              },
+              onLongPress: () {
+                setState(() {
+                  if (squareside > 75) {
+                    squareside = 50;
+                    text = 'This is small box';
+                  } else {
+                    squareside = 100;
+                    text = 'This is large box';
                   }
                 });
               },
