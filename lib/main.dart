@@ -30,7 +30,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> myTiles = [MyTile(key: UniqueKey()), MyTile(key: UniqueKey())];
+  // Padding 에 Key 값이 아닌 MyTile 에 Key 값이 들어가면 refresh 할때마다 모든 색이 변경
+  List<Widget> myTiles = [
+    Padding(
+      key: UniqueKey(),
+      padding: const EdgeInsets.all(8.0),
+      child: MyTile(),
+    ),
+    Padding(
+      key: UniqueKey(),
+      padding: const EdgeInsets.all(8.0),
+      child: MyTile(),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
