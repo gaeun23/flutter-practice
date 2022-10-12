@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 enum Role { leader, member }
@@ -30,67 +29,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // Padding 에 Key 값이 아닌 MyTile 에 Key 값이 들어가면 refresh 할때마다 모든 색이 변경
-  List<Widget> myTiles = [
-    Padding(
-      key: UniqueKey(),
-      padding: const EdgeInsets.all(8.0),
-      child: MyTile(),
-    ),
-    Padding(
-      key: UniqueKey(),
-      padding: const EdgeInsets.all(8.0),
-      child: MyTile(),
-    )
-  ];
+  List list = List.generate(20, (index) => index);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Using Key'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
-      ),
-      body: Row(
-        children: myTiles,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.swap_calls),
-        onPressed: () {
-          setState(() {
-            myTiles.insert(1, myTiles.removeAt(0));
-          });
-        },
-      ),
-    );
-  }
-}
+        appBar: AppBar(
+          title: const Text('Using Key'),
+          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+        ),
 
-class MyTile extends StatefulWidget {
-  MyTile({Key? key}) : super(key: key);
-
-  @override
-  State<MyTile> createState() => _MyTileState();
-}
-
-class _MyTileState extends State<MyTile> {
-  final Color myColor = UniqueColorGenerator.getColor();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 100,
-      color: myColor,
-    );
-  }
-}
-
-class UniqueColorGenerator {
-  static Random random = Random();
-
-  static Color getColor() {
-    return Color.fromARGB(
-        255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
+        // ListView 의 필수 속성 : itemBuilder 와 itemCount
+        // ReorderableListView 의 필수 속성 : onReorder
+        // ReorderableListView 의 모든 item은 반드시 key를 가져야 함.
+        body: ReorderableListView.builder(
+          itemBuilder: (context, i) {
+            return ListTile(
+              key: ValueKey(list[i]),
+              title: Text('Students ${list[i]}'),
+              leading: const Icon(Icons.person),
+              trailing: const Icon(Icons.navigate_next),
+            );
+          },
+          itemCount: list.length,
+          onReorder: (int oldIndex, int newIndex) {
+            setState(() {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              list.insert(newIndex, list.removeAt(oldIndex));
+            });
+          },
+        ));
   }
 }
