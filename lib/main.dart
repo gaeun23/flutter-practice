@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> myTiles = [MyTile(), MyTile()];
+  List<Widget> myTiles = [MyTile(key: UniqueKey()), MyTile(key: UniqueKey())];
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MyTile extends StatelessWidget {
+class MyTile extends StatefulWidget {
   MyTile({Key? key}) : super(key: key);
+
+  @override
+  State<MyTile> createState() => _MyTileState();
+}
+
+class _MyTileState extends State<MyTile> {
   final Color myColor = UniqueColorGenerator.getColor();
 
   @override
