@@ -42,13 +42,25 @@ class _MyHomePageState extends State<MyHomePage> {
         // ListView 의 필수 속성 : itemBuilder 와 itemCount
         // ReorderableListView 의 필수 속성 : onReorder
         // ReorderableListView 의 모든 item은 반드시 key를 가져야 함.
+
+        // Dismissible widget은 반드시 key를 가져야 함
         body: ReorderableListView.builder(
           itemBuilder: (context, i) {
-            return ListTile(
+            return Dismissible(
               key: ValueKey(list[i]),
-              title: Text('Students ${list[i]}'),
-              leading: const Icon(Icons.person),
-              trailing: const Icon(Icons.navigate_next),
+              background: Container(
+                color: Colors.orange,
+              ),
+              child: ListTile(
+                title: Text('Students ${list[i]}'),
+                leading: const Icon(Icons.person),
+                trailing: const Icon(Icons.navigate_next),
+              ),
+              onDismissed: (direction) {
+                setState(() {
+                  list.removeAt(i);
+                });
+              },
             );
           },
           itemCount: list.length,
