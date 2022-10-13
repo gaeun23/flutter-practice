@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-enum Role { leader, member }
-
 void main() {
   runApp(const MyApp());
 }
@@ -14,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.purple,
       ),
       home: const MyHomePage(),
     );
@@ -29,61 +27,178 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String text = '';
-  double squareside = 100;
+  StudentInfo studentInfo = StudentInfo('', 0, 0);
+  final _formKey = GlobalKey<FormState>();
+  late List<Widget> studentList = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Using Key'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Grade Calculator'),
+          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+          bottom: const TabBar(
+            tabs: [Tab(text: 'Information'), Tab(text: 'List')],
+          ),
+        ),
+        body: TabBarView(
           children: [
-
-            // 이 외에도 다양한 애니메이션 구현은 https://docs.flutter.dev/development/ui/widgets/animation 참고
-
-            GestureDetector(
-              child: AnimatedContainer(
-                width: squareside,
-                height: squareside,
-                color: Colors.green,
-                duration: const Duration(seconds: 1),
+            Tab(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(), labelText: 'Name'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter student name';
+                          } else if (int.tryParse(value) != null) {
+                            return 'Please enter some string, not a number.';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          setState(() {
+                            studentInfo.name = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Project point'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter project point.';
+                          } else if (int.tryParse(value) == null) {
+                            return 'Please enter some integer.';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          studentInfo.point = int.parse(value!);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Additional Point',
+                        ),
+                        items: List.generate(11, (index) {
+                          if (index == 0) {
+                            return DropdownMenuItem(
+                                value: index,
+                                child:
+                                    const Text('Choose the additional point'));
+                          }
+                          return DropdownMenuItem(
+                              value: index, child: Text('${index - 1} point'));
+                        }),
+                        value: 0,
+                        onChanged: (value) {
+                          studentInfo.additionalPoint = value! - 1;
+                        },
+                        validator: (value) {
+                          if (value == 0) {
+                            return 'Please select the point';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                      GestureDetector(
+                        child: Container(
+                          height: 50,
+                          color: Colors.indigo,
+                          child: const Center(
+                            child: Text(
+                              'Enter',
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (_formKey.currentState!.validate()) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Information update complete'),
+                              ));
+                              _formKey.currentState!.save();
+                              studentList.add(ListTile(
+                                title: Text(studentInfo.toString()),
+                                leading: const Icon(Icons.home),
+                              ));
+                              print(studentInfo);
+                              print(studentList);
+                            }
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ),
               ),
-              onTap: () {
-                setState(() {
-                  if (text.isEmpty) {
-                    text = 'Hello World';
-                  } else {
-                    text = '';
-                  }
-                });
-              },
-              onLongPress: () {
-                setState(() {
-                  if (squareside > 75) {
-                    squareside = 50;
-                    text = 'This is small box';
-                  } else {
-                    squareside = 100;
-                    text = 'This is large box';
-                  }
-                });
-              },
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              text,
-              style: const TextStyle(fontSize: 20),
+            Tab(
+              child: ReorderableListView.builder(
+                itemBuilder: (context, i) {
+                  return Dismissible(
+                    key: ValueKey(studentList[i]),
+                    background: Container(
+                      color: Colors.purple,
+                    ),
+                    onDismissed: (direction) {
+                      setState(() {
+                        studentList.removeAt(i);
+                      });
+                    },
+                    child: studentList[i],
+                  );
+                },
+                itemCount: studentList.length,
+                onReorder: (int oldIndex, int newIndex) {
+                  if (studentList.length > 2) {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    studentList.insert(
+                        newIndex, studentList.removeAt(oldIndex));
+                  }
+                },
+              ),
             )
           ],
         ),
       ),
     );
+  }
+}
+
+class StudentInfo {
+  String name;
+  int point;
+  int additionalPoint;
+
+  StudentInfo(this.name, this.point, this.additionalPoint);
+
+  @override
+  String toString() {
+    return '$name: ${point + additionalPoint}';
   }
 }
