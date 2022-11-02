@@ -58,6 +58,7 @@ class MyForm extends StatefulWidget {
 class _MyFormState extends State<MyForm> {
   StudentResult studentResult = StudentResult(0, 0, 0, -1, true);
   final _formKey = GlobalKey<FormState>();
+  String grade = '';
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +185,8 @@ class _MyFormState extends State<MyForm> {
                     // Routing 을 하는 위젯
                     // Stack 자료구조 처럼 위에 덧붙여지게 됨
                     // 위로 생성된 페이지의 appBar 에는 자동으로 뒤로가기 버튼 생성(pop 기능)
-                    Navigator.pushNamed(context, '/result');
+                    Navigator.pushNamed(context, '/result',
+                        arguments: studentResult);
                     print(studentResult);
                   }
                 });
@@ -200,7 +202,12 @@ class _MyFormState extends State<MyForm> {
                     ));
                     _formKey.currentState!.save();
                     studentResult.computeSum();
-                    Navigator.pushNamed(context, '/grade');
+                    if (studentResult.totalPoint! >= 60) {
+                      grade = 'A';
+                    } else {
+                      grade = 'B';
+                    }
+                    Navigator.pushNamed(context, '/grade', arguments: grade);
                     print(studentResult);
                   }
                 });
@@ -219,6 +226,10 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Object 형식이기 때문에 Object type 을 명확히 명시 해주기 위하여 'as' 사용
+    // 추상화된 object 를 자식위젯으로 구체화함
+    final result = ModalRoute.of(context)?.settings.arguments as StudentResult;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Result'),
@@ -238,7 +249,7 @@ class ResultPage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              '0',
+              '${result.totalPoint}',
               style: const TextStyle(fontSize: 50),
             ),
             const SizedBox(
@@ -262,6 +273,7 @@ class GradePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final grade = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Grade'),
@@ -281,7 +293,7 @@ class GradePage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              '0',
+              grade,
               style: const TextStyle(fontSize: 50),
             ),
             const SizedBox(
