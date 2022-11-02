@@ -16,7 +16,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const MyHomePage(),
+      // 슬래쉬는 가장 기본이 되는 home view 를 의미
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/result': (context) => const ResultPage(),
+        '/grade': (context) => const GradePage(),
+      },
+      // home: const MyHomePage(),
     );
   }
 }
@@ -177,14 +184,23 @@ class _MyFormState extends State<MyForm> {
                     // Routing 을 하는 위젯
                     // Stack 자료구조 처럼 위에 덧붙여지게 됨
                     // 위로 생성된 페이지의 appBar 에는 자동으로 뒤로가기 버튼 생성(pop 기능)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ResultPage(
-                          result: studentResult,
-                        ),
-                      ),
-                    );
+                    Navigator.pushNamed(context, '/result');
+                    print(studentResult);
+                  }
+                });
+              },
+              child: const Text('Enter'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Processing data'),
+                    ));
+                    _formKey.currentState!.save();
+                    studentResult.computeSum();
+                    Navigator.pushNamed(context, '/grade');
                     print(studentResult);
                   }
                 });
@@ -199,10 +215,7 @@ class _MyFormState extends State<MyForm> {
 }
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key, this.result}) : super(key: key);
-
-  // 변수의 nullable 선언
-  final StudentResult? result;
+  const ResultPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +238,50 @@ class ResultPage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              '${result?.totalPoint}',
+              '0',
+              style: const TextStyle(fontSize: 50),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  // pop 하는 코드
+                  Navigator.pop(context);
+                },
+                child: const Text('Insert Again'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GradePage extends StatelessWidget {
+  const GradePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Grade'),
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Grade',
+              style: TextStyle(
+                fontSize: 30,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              '0',
               style: const TextStyle(fontSize: 50),
             ),
             const SizedBox(
@@ -268,7 +324,7 @@ class StudentResult {
   @override
   String toString() {
     return '('
-        '$totalPoint'
+        '$totalPoint '
         '$midTermExam, '
         '$finalTermExam, '
         '$teamLeaderPoint, '
