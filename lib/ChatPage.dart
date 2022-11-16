@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -49,7 +52,10 @@ class _ChatPageState extends State<ChatPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [NewMessage()],
+          children: const [
+            BubbleElement(isMe: true, text: "text", userName: "userName"),
+            NewMessage(),
+          ],
         ),
       ),
     );
@@ -105,5 +111,71 @@ class _NewMessageState extends State<NewMessage> {
         ),
       ],
     );
+  }
+}
+
+class BubbleElement extends StatelessWidget {
+  const BubbleElement(
+      {Key? key,
+      required this.isMe,
+      required this.text,
+      required this.userName})
+      : super(key: key);
+  final bool isMe;
+  final String text;
+  final String userName;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isMe) {
+      return ChatBubble(
+        clipper: ChatBubbleClipper5(type: BubbleType.sendBubble),
+        alignment: Alignment.topRight,
+        margin: const EdgeInsets.only(top: 20),
+        backGroundColor: Colors.blue,
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.7,
+          ),
+          child: Column(
+            children: [
+              Text(
+                userName,
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                text,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return ChatBubble(
+        clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
+        backGroundColor: const Color(0xffE7E7ED),
+        margin: const EdgeInsets.only(top: 20),
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.7,
+          ),
+          child: Column(
+            children: [
+              Text(
+                userName,
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                text,
+                style: const TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
