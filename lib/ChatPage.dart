@@ -39,26 +39,46 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     // final userEmail = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chat'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              icon: const Icon(Icons.logout))
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            BubbleElement(isMe: true, text: "text", userName: "userName"),
-            NewMessage(),
+        appBar: AppBar(
+          title: const Text('Chat'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                icon: const Icon(Icons.logout))
           ],
         ),
-      ),
-    );
+        body: Column(
+          children: [
+            Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('chat')
+                    .orderBy('timestamp')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final docs = snapshot.data!.docs;
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      return BubbleElement(
+                        isMe: docs[index]['uid'] ==
+                            _authentication.currentUser!.uid,
+                        text: docs[index]['text'],
+                        userName: docs[index]['userName'],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            const NewMessage(),
+          ],
+        ));
   }
 }
 
@@ -71,6 +91,7 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
   String newMessage = '';
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +101,7 @@ class _NewMessageState extends State<NewMessage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              controller: _textController,
               decoration: const InputDecoration(label: Text('New Message')),
               onChanged: (value) {
                 setState(() {
@@ -106,6 +128,7 @@ class _NewMessageState extends State<NewMessage> {
                     'timestamp': Timestamp.now(),
                     'uid': currentUser.uid,
                   });
+                  _textController.clear();
                 },
           icon: const Icon(Icons.send),
         ),
@@ -128,51 +151,59 @@ class BubbleElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isMe) {
-      return ChatBubble(
-        clipper: ChatBubbleClipper5(type: BubbleType.sendBubble),
-        alignment: Alignment.topRight,
-        margin: const EdgeInsets.only(top: 20),
-        backGroundColor: Colors.blue,
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.7,
-          ),
-          child: Column(
-            children: [
-              Text(
-                userName,
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                text,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ],
+      return Padding(
+        padding: const EdgeInsets.only(right: 16.0),
+        child: ChatBubble(
+          clipper: ChatBubbleClipper5(type: BubbleType.sendBubble),
+          alignment: Alignment.topRight,
+          margin: const EdgeInsets.only(top: 20),
+          backGroundColor: Colors.blue,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.7,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  userName,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  text,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
           ),
         ),
       );
     } else {
-      return ChatBubble(
-        clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
-        backGroundColor: const Color(0xffE7E7ED),
-        margin: const EdgeInsets.only(top: 20),
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.7,
-          ),
-          child: Column(
-            children: [
-              Text(
-                userName,
-                style: const TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                text,
-                style: const TextStyle(color: Colors.black),
-              ),
-            ],
+      return Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: ChatBubble(
+          clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
+          backGroundColor: const Color(0xffE7E7ED),
+          margin: const EdgeInsets.only(top: 20),
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.7,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userName,
+                  style: const TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  text,
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
           ),
         ),
       );
