@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_login/SuccessRegisterPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String userName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +58,29 @@ class _RegisterFormState extends State<RegisterForm> {
             const SizedBox(
               height: 20,
             ),
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'UserName'),
+              onChanged: (value) {
+                userName = value;
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
               onPressed: () async {
                 try {
                   final newUser =
                       await _authentication.createUserWithEmailAndPassword(
                           email: email, password: password);
+                  await FirebaseFirestore.instance
+                      .collection('user')
+                      .doc(newUser.user!.uid)
+                      .set({
+                    'userName': userName,
+                    'email': email,
+                  });
+
                   if (newUser.user != null) {
                     _formKey.currentState!.reset();
                     if (!mounted) return;
