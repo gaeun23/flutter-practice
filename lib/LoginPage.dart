@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase_login/ChatPage.dart';
 import 'package:flutter_firebase_login/RegisterPage.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -74,11 +73,6 @@ class _LoginFormState extends State<LoginForm> {
                     if (userInfo != null) {
                       _formKey.currentState!.reset();
                       if (!mounted) return;
-                      Navigator.pushNamed(
-                        context,
-                        ChatPage.routeName,
-                        arguments: userInfo.email,
-                      );
                       setState(() {
                         showSpinner = false;
                       });
