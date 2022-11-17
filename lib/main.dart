@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase_login/LoginPage.dart';
 import 'package:flutter_firebase_login/SuccessRegisterPage.dart';
+import 'package:flutter_firebase_login/ChatListPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'ChatPage.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SuccessRegisterPage.routeName: (context) => const SuccessRegisterPage(),
         ChatPage.routeName: (context) => const ChatPage(),
+        ChatListPage.routeName: (context) => const ChatListPage()
       },
       home: StreamBuilder(
         // stream : 변화를 관찰하고자 하는 값

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_login/FilterMessagePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
@@ -42,6 +43,14 @@ class _ChatPageState extends State<ChatPage> {
         appBar: AppBar(
           title: const Text('Chat'),
           actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FilterMessagePage()));
+                },
+                icon: const Icon(Icons.list)),
             IconButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
