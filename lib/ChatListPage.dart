@@ -14,23 +14,22 @@ class ChatListPage extends StatelessWidget {
         title: const Text('Chat List'),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('chat').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('chat')
+            .where('userName',
+                isEqualTo: filterName) // chat -> randomString docs 내부 데이터에 접근
+            .snapshots(), // snapshots() is equal .get().asStream()
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+          var docs = [];
+          if (snapshot.hasData) {
+            docs = snapshot.data!.docs;
           }
-          final docs = snapshot.data!.docs;
-          final filteredDos = docs
-              .where((field) => field['userName'] == filterName)
-              .map((e) => e.data())
-              .toList();
-
           return ListView.builder(
-            itemCount: filteredDos.length,
+            itemCount: docs.length,
             itemBuilder: (context, index) {
               return ChatListItem(
-                text: filteredDos[index]['text'],
-                userName: filteredDos[index]['userName'],
+                text: docs[index]['text'],
+                userName: docs[index]['userName'],
               );
             },
           );
