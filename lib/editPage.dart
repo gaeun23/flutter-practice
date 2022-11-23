@@ -7,11 +7,41 @@ class EditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Scores'),
+    return ChangeNotifierProvider(
+      create: (context) => DetailedScores(),
+      builder: (context, child) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Edit Scores'),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const EditPanel(),
+            const SizedBox(
+              height: 40,
+            ),
+            const Text(
+              'Additional Mid-Term',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              context.watch<DetailedScores>().additionalMidTerm.toString(),
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              'Additional Final',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              context.watch<DetailedScores>().additionalFinal.toString(),
+              style: const TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
       ),
-      body: const EditPanel(),
     );
   }
 }
