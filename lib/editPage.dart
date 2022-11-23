@@ -44,7 +44,7 @@ class EditPanel extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 )),
             Text(
-              context.watch<Scores>().midTermExam.toString(),
+              context.select((Scores s) => s.midTermExam.toString()),
               style: const TextStyle(fontSize: 20),
             ),
             TextButton(
@@ -77,7 +77,7 @@ class EditPanel extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 )),
             Text(
-              context.watch<Scores>().finalExam.toString(),
+              context.select((Scores s) => s.finalExam.toString()),
               style: const TextStyle(fontSize: 20),
             ),
             TextButton(
