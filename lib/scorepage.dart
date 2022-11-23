@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice_widgets/editPage.dart';
+import 'package:provider/provider.dart';
+import 'scores.dart';
 
 class ScorePage extends StatelessWidget {
   const ScorePage({Key? key}) : super(key: key);
@@ -39,33 +41,33 @@ class ScorePanel extends StatelessWidget {
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
+          children: [
+            const Text(
               'Mid-Term',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
-              '0',
-              style: TextStyle(fontSize: 20),
+              context.watch<Scores>().midTermExam.toString(),
+              style: const TextStyle(fontSize: 20),
             ),
           ],
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'Mid-Term',
+          children: [
+            const Text(
+              'Final',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
-              '0',
-              style: TextStyle(fontSize: 20),
+              context.watch<Scores>().finalExam.toString(),
+              style: const TextStyle(fontSize: 20),
             ),
           ],
         )

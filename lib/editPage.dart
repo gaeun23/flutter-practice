@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'scores.dart';
 
 class EditPage extends StatelessWidget {
   const EditPage({Key? key}) : super(key: key);
@@ -33,17 +35,22 @@ class EditPanel extends StatelessWidget {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // 함수를 가져와 쓰기 때문에 watch 보다는 read 사용. callback function 을 불러올 때는 read 사용
+                  context.read<Scores>().decreaseMidTerm();
+                },
                 child: const Text(
                   '-',
                   style: TextStyle(fontSize: 20),
                 )),
-            const Text(
-              '0',
-              style: TextStyle(fontSize: 20),
+            Text(
+              context.watch<Scores>().midTermExam.toString(),
+              style: const TextStyle(fontSize: 20),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<Scores>().increaseMidTerm();
+              },
               child: const Text(
                 '+',
                 style: TextStyle(fontSize: 20),
@@ -62,17 +69,21 @@ class EditPanel extends StatelessWidget {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<Scores>().decreaseFinal();
+                },
                 child: const Text(
                   '-',
                   style: TextStyle(fontSize: 20),
                 )),
-            const Text(
-              '0',
-              style: TextStyle(fontSize: 20),
+            Text(
+              context.watch<Scores>().finalExam.toString(),
+              style: const TextStyle(fontSize: 20),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<Scores>().increaseFinal();
+              },
               child: const Text(
                 '+',
                 style: TextStyle(fontSize: 20),
